@@ -1,0 +1,23 @@
+version: "3.7"
+
+services:
+  forticlient:
+    image: auchandirect/forticlient
+    environment:
+      - VPNADDR=bitoauh.fortiddns.com:12443
+      - VPNUSER=benjamin@bitoasis.net
+      - VPNPASS=nLr$$7831%buPL55
+      - VPNTIMEOUT=${VPNTIMEOUT:-60}
+    network_mode: bridge
+    cap_add:
+      - NET_ADMIN
+    privileged: true
+    ports:
+      - 8087:8087
+  bo_admin:
+    image: jiashanlu/bo_admin_api
+    container_name: bo_admin_api
+    network_mode: service:forticlient
+    depends_on:
+      - forticlient
+    restart: always

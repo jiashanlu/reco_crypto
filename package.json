@@ -1,0 +1,28 @@
+{
+  "name": "api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "binance": "^2.0.29",
+    "binance-api-node": "^0.11.36",
+    "bitgo": "^14.0.0",
+    "body-parser": "^1.19.2",
+    "ejs": "^3.1.6",
+    "express": "^4.17.3",
+    "flat": "^5.0.2",
+    "http": "^0.0.1-security",
+    "lodash.chunk": "^4.2.0",
+    "node-fetch": "^3.2.1",
+    "util": "^0.12.4"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.15"
+  }
+}

@@ -1,0 +1,15 @@
+<html>
+  <head><title><%= title %></title></head>
+  <img src="images/bitoasis-logo.png" alt="BO Logo">
+  <body>
+    <form action = "/get" method = "GET">
+        Date: <input type = "date" name = "date"><br><br>  
+        Coin: <input type = "text" name = "coin">
+        <input type = "submit" value = "Submit">
+     </form>
+     <p>
+       *Select the oldest date of your report. 
+       *Select a coin. If empty, it will query all the coins.
+     </p>
+  </body>
+</html>

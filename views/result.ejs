@@ -1,0 +1,234 @@
+<style type="text/css">
+  table.tableizer-table {
+    font-size: 12px;
+    border: 1px solid #ccc;
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  .tableizer-table td {
+    padding: 4px;
+    margin: 3px;
+    border: 1px solid #ccc;
+  }
+  .tableizer-table th {
+    background-color: #1fb59a;
+    color: #fff;
+    font-weight: bold;
+  }
+</style>
+<p hidden id="fla"><%- fla %></p>
+<html>
+  <head>
+    <title><%= title %></title>
+    <script
+      type="text/javascript"
+      src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"
+    ></script>
+  </head>
+  <body>
+    
+    <table class="tableizer-table" id="bitgo">
+      <thead>
+        <tr class="tableizer-firstrow">
+          <th>Coin</th>
+          <th>Wallet type</th>
+          <th>Current balance</th>
+          <th>&nbsp;</th>
+          <% for (const date in
+          result.list[Object.keys(result.list)[0]].transactions) { %>
+          <th colspan="2"><%= `${date}` %></th>
+          <% }; %>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td colspan="3">as of now</td>
+          <td>Type</td>
+          <% for (const date in
+          result.list[Object.keys(result.list)[0]].transactions) { %>
+          <td>Value</td>
+          <td>Balance</td>
+          <% }; %>
+        </tr>
+        <% for (const coin in result.list) { %>
+        <tr>
+          <td rowspan="8"><%= `${coin.toUpperCase()}` %></td>
+          <td rowspan="2">Custodial paired</td>
+          <td rowspan="2">
+            <%=
+            `${result.list[coin].custodialPaired.current_balance.toLocaleString('en-US',{minimumFractionDigits:
+            2, maximumFractionDigits: 4})}` %>
+          </td>
+          <td>Deposit</td>
+          <% for (const date in
+          result.list[Object.keys(result.list)[0]].transactions) { %>
+          <td>
+            <%=
+            `${result.list[coin].transactions[date].custodialPaired.receive.value.toLocaleString('en-US',{minimumFractionDigits:
+              2, maximumFractionDigits: 4})}`
+            %>
+          </td>
+          <td rowspan="2">
+            <%= `${(result.list[coin].custodialPaired.current_balance -
+            result.list[coin].transactions[date].custodialPaired.cumul.value).toLocaleString('en-US',{minimumFractionDigits:
+              2, maximumFractionDigits: 4})}`
+            %>
+          </td>
+          <% }; %>
+        </tr>
+        <tr>
+          <td>Withdrawal</td>
+          <% for (const date in
+          result.list[Object.keys(result.list)[0]].transactions) { %>
+          <td>
+            <%=
+            `${result.list[coin].transactions[date].custodialPaired.send.value.toLocaleString('en-US',{minimumFractionDigits:
+              2, maximumFractionDigits: 4})}`
+            %>
+          </td>
+          <% }; %>
+        </tr>
+
+        <tr>
+          <td rowspan="2">Custodial</td>
+          <td rowspan="2">
+            <%=
+            `${result.list[coin].custodial.current_balance.toLocaleString('en-US',{minimumFractionDigits:
+            2, maximumFractionDigits: 4})}` %>
+          </td>
+          <td>Deposit</td>
+          <% for (const date in
+          result.list[Object.keys(result.list)[0]].transactions) { %>
+          <td>
+            <%=
+            `${result.list[coin].transactions[date].custodial.receive.value.toLocaleString('en-US',{minimumFractionDigits:
+              2, maximumFractionDigits: 4})}` %>
+          </td>
+          <td rowspan="2">
+            <%= `${(result.list[coin].custodial.current_balance -
+            result.list[coin].transactions[date].custodial.cumul.value).toLocaleString('en-US',{minimumFractionDigits:
+              2, maximumFractionDigits: 4})}`
+            %>
+          </td>
+          <% }; %>
+        </tr>
+        <tr>
+          <td>Withdrawal</td>
+          <% for (const date in
+          result.list[Object.keys(result.list)[0]].transactions) { %>
+          <td>
+            <%= `${result.list[coin].transactions[date].custodial.send.value.toLocaleString('en-US',{minimumFractionDigits:
+              2, maximumFractionDigits: 4})}`
+            %>
+          </td>
+          <% }; %>
+        </tr>
+
+        <tr>
+          <td rowspan="2">hot</td>
+          <td rowspan="2">
+            <%=
+            `${result.list[coin].hot.current_balance.toLocaleString('en-US',{minimumFractionDigits:
+            2, maximumFractionDigits: 4})}` %>
+          </td>
+          <td>Deposit</td>
+          <% for (const date in
+          result.list[Object.keys(result.list)[0]].transactions) { %>
+          <td>
+            <%= `${result.list[coin].transactions[date].hot.receive.value.toLocaleString('en-US',{minimumFractionDigits:
+              2, maximumFractionDigits: 4})}` %>
+          </td>
+          <td rowspan="2">
+            <%= `${(result.list[coin].hot.current_balance -
+            result.list[coin].transactions[date].hot.cumul.value).toFixed(4)}`
+            %>
+          </td>
+          <% }; %>
+        </tr>
+        <tr>
+          <td>Withdrawal</td>
+          <% for (const date in
+          result.list[Object.keys(result.list)[0]].transactions) { %>
+          <td>
+            <%= `${result.list[coin].transactions[date].hot.send.value.toLocaleString('en-US',{minimumFractionDigits:
+              2, maximumFractionDigits: 4})}` %>
+          </td>
+          <% }; %>
+        </tr>
+        <tr>
+          <td rowspan="2">total</td>
+          <td rowspan="2">
+            <%=
+            `${result.list[coin].total.current_balance.toLocaleString('en-US',{minimumFractionDigits:
+            2, maximumFractionDigits: 4})}` %>
+          </td>
+          <td>Deposit</td>
+          <% for (const date in
+          result.list[Object.keys(result.list)[0]].transactions) { %>
+          <td>
+            <%=
+            (parseFloat(result.list[coin].transactions[date].custodialPaired.receive.value)
+            +
+            parseFloat(result.list[coin].transactions[date].custodial.receive.value)
+            +
+            parseFloat(result.list[coin].transactions[date].hot.receive.value)).toLocaleString('en-US',{minimumFractionDigits:
+            2, maximumFractionDigits: 4}) %>
+          </td>
+          <td rowspan="2">
+            <%= ((parseFloat(result.list[coin].custodialPaired.current_balance)
+            + parseFloat(result.list[coin].custodial.current_balance) +
+            parseFloat(result.list[coin].hot.current_balance)) -
+            (parseFloat(result.list[coin].transactions[date].custodialPaired.cumul.value)
+            +
+            parseFloat(result.list[coin].transactions[date].custodial.cumul.value)
+            +
+            parseFloat(result.list[coin].transactions[date].hot.cumul.value))).toLocaleString('en-US',{minimumFractionDigits:
+            2, maximumFractionDigits: 4}) %>
+          </td>
+          <% }; %>
+        </tr>
+        <tr>
+          <td>Withdrawal</td>
+          <% for (const date in
+          result.list[Object.keys(result.list)[0]].transactions) { %>
+          <td>
+            <%=
+            ((parseFloat(result.list[coin].transactions[date].custodialPaired.send.value)
+            +
+            parseFloat(result.list[coin].transactions[date].custodial.send.value)
+            + parseFloat(result.list[coin].transactions[date].hot.send.value))).toLocaleString('en-US',{minimumFractionDigits:
+              2, maximumFractionDigits: 4})
+            %>
+          </td>
+          <% }; %>
+        </tr>
+        <% }; %>
+      </tbody>
+    </table>
+    <button id="ButtonT">tableToExcel</button>
+    <button id="ButtonJ">jsonToExcel</button>
+  </body>
+
+  <script type="text/javascript">
+    document.getElementById("ButtonT").onclick = function () {
+      tableToExcel();
+    };
+    document.getElementById("ButtonJ").onclick = function () {
+      jsonToExcel();
+    };
+    function tableToExcel(type, fn, dl) {
+      var elt = document.getElementById("bitgo");
+      var wb = XLSX.utils.table_to_book(elt, { sheet: "Bitgo" });
+      return dl
+        ? XLSX.write(wb, { bookType: type, bookSST: true, type: "base64" })
+        : XLSX.writeFile(wb, fn || "Bitgo_API." + (type || "xlsx"));
+    }
+    var result = document.getElementById("fla").innerHTML;
+    function jsonToExcel() {
+      var elt = XLSX.utils.json_to_sheet([JSON.parse(result)]);
+      var wb = XLSX.utils.book_new()
+      XLSX.utils.book_append_sheet(wb, elt, 'data')
+      XLSX.write(wb, { bookType: 'xlsx', bookSST: false, type: 'buffer' })
+      return XLSX.writeFile(wb, 'book.xlsx')
+    }
+  </script>
+</html>
