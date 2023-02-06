@@ -4,9 +4,9 @@ services:
   forticlient:
     image: auchandirect/forticlient
     environment:
-      - VPNADDR=bitoauh.fortiddns.com:12443
-      - VPNUSER=benjamin@bitoasis.net
-      - VPNPASS=nLr$$7831%buPL55
+      - VPNADDR=see ENV
+      - VPNUSER=see ENV
+      - VPNPASS=see ENV
       - VPNTIMEOUT=${VPNTIMEOUT:-60}
     network_mode: bridge
     cap_add:
